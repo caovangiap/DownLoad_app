@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="audio_left_to_load_color">#555555</color>
+    <color name="audio_already_load_color">#000000</color>
+    <color name="video_left_to_load_color">#CD5656</color>
+    <color name="video_already_load_color">#BC211D</color>
+    <color name="subtitle_left_to_load_color">#008ea4</color>
+    <color name="subtitle_already_load_color">#005a71</color>
+
+    <color name="black_settings_accent_color">#555555</color>
+    <color name="background_download_item">#555555</color>
+    <color name="forground_download_item">#000000</color>
+
+
+    <color name="color_gray_1">#a0a0a0</color>
+    <color name="yellow">#ffff00</color>
+    <color name="red_500">#F44336</color>
+    <color name="dialogBackground">#60000000</color>
+</resources>
