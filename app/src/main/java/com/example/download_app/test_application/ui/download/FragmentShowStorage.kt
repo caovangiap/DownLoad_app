@@ -1,4 +1,4 @@
-package com.example.download_app.ui.download
+package com.example.download_app.test_application.ui.download
 
 import android.Manifest
 import android.app.Activity
@@ -18,11 +18,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.download_app.MainActivity
+import com.example.download_app.test_application.ui.MainActivity
 import com.example.download_app.R
 import com.example.download_app.databinding.FragmentShowStorageBinding
 
-import com.example.download_app.viewmodel.ViewModelDownLoad
+import com.example.download_app.test_application.viewmodel.ViewModelDownLoad
 
 
 class FragmentShowStorage : Fragment() {

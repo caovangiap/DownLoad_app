@@ -1,4 +1,4 @@
-package com.example.download_app.ui.download
+package com.example.download_app.test_application.ui.download
 
 import android.app.AlertDialog
 import android.content.Context
@@ -15,8 +15,8 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.download_app.R
-import com.example.download_app.model.StorageData
-import com.example.download_app.viewmodel.ViewModelDownLoad
+import com.example.download_app.test_application.model.StorageData
+import com.example.download_app.test_application.viewmodel.ViewModelDownLoad
 
 /**
  * Các action thêm sửa xóa được tích hợp vào items view trong recycler

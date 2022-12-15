@@ -1,4 +1,4 @@
-package com.example.download_app.viewmodel
+package com.example.download_app.test_application.viewmodel
 import android.app.DownloadManager
 import android.content.ContentUris
 import android.content.ContentValues
@@ -14,22 +14,16 @@ import android.webkit.URLUtil
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.ApiServiceDowwnLoadFile
-import com.example.ConstantDownLoadApp
-import com.example.download_app.MainActivity
-import com.example.download_app.model.ProcessData
-import com.example.download_app.model.StorageData
+import com.example.download_app.ConstantDownLoadApp
+import com.example.download_app.core_download.core.DownLoadTask
+import com.example.download_app.test_application.ui.MainActivity
+import com.example.download_app.test_application.model.ProcessData
+import com.example.download_app.test_application.model.StorageData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.ResponseBody
 import org.schabi.newpipe.extractor.stream.StreamInfo
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import us.shandian.giga.util.ExtractorHelper
 import java.io.*
 import java.text.SimpleDateFormat
@@ -92,7 +86,7 @@ class ViewModelDownLoad : ViewModel() {
 //                        context,
 //                        result.videoStreams[2].content
 //                    )
-                    downloadFile(result.videoStreams[2].content)
+
                 }
             })
             { throwable: Throwable? ->
@@ -145,8 +139,9 @@ class ViewModelDownLoad : ViewModel() {
             )
         )
         liveDataProcessDownLoad.value = dataProcessDownLoad
-    //    getMessageProcessOrStatus(downloadReference, downloadManager, dataProcessDownLoad, position)
+        getMessageProcessOrStatus(downloadReference, downloadManager, dataProcessDownLoad, position)
         position += 1
+        
     }
 
     /**
@@ -420,100 +415,6 @@ class ViewModelDownLoad : ViewModel() {
             "$bytes Bytes"
         }
     }
-
-    /**
-     * gọi request dữ liệu
-     */
-
-    fun downloadFile(content: String) {
-        Log.d("downloadFile", "start")
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://rr1---sn-8pxuuxa-i5od6.googlevideo.com")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val service = retrofit.create(ApiServiceDowwnLoadFile::class.java)
-
-        val call = service. downloadFileWithFixedUrl()
-
-        call.enqueue(object : Callback<ResponseBody> {
-
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                try {
-                    if (response.isSuccessful) {
-                         viewModelScope.launch(Dispatchers.IO) {
-                                val writtenToDisk = writeResponseBodyToDisk(response.body(), "retrofit-2.0.0-beta2-javadoc.jar")
-                                Log.d("download", "file download was a success? $writtenToDisk")
-                        }
-                    }else {
-                        Log.d(ConstantDownLoadApp.Tag_Server_Contact_Failer, "server contact failed");
-                    }
-
-                } catch (e: IOException) {
-                    Log.d("onResponse", "There is an error")
-                    e.printStackTrace()
-                }
-            }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d("onFailure", t.toString())
-            }
-        })
-    }
-
-    /**
-     * GHI FILE ĐÃ DOWNLOAD VÀO DISK
-     */
-    private fun writeResponseBodyToDisk(body: ResponseBody?, fileName: String): Boolean {
-        try {
-            // todo change the file location/name according to your needs
-
-            var retrofitBetaFile = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).toString() + File.separator + fileName)
-            Log.e("retrofitBetaFile", retrofitBetaFile.path)
-            var inputStream: InputStream? = null
-            var outputStream: OutputStream? = null
-
-            try {
-                val fileReader = ByteArray(4096)
-
-                val fileSize = body?.contentLength()
-                var fileSizeDownloaded: Long = 0
-
-                inputStream = body?.byteStream()
-                outputStream = FileOutputStream(retrofitBetaFile)
-
-                while (true) {
-                    val read = inputStream!!.read(fileReader)
-                    //Nó được sử dụng để trả về một ký tự trong mẫu ASCII. Nó trả về -1 vào cuối tập tin.
-                    if (read == -1) {
-                        break
-                    }
-                    outputStream!!.write(fileReader, 0, read)
-                    fileSizeDownloaded += read.toLong()
-                    Log.d("writeResponseBodyToDisk", "file download: $fileSizeDownloaded of $fileSize")
-                }
-
-                outputStream!!.flush()
-
-                return true
-            } catch (e: IOException) {
-                return false
-            } finally {
-                if (inputStream != null) {
-                    inputStream!!.close()
-                }
-
-                if (outputStream != null) {
-                    outputStream!!.close()
-                }
-            }
-        } catch (e: IOException) {
-            return false
-        }
-    }
-
-
-
 }
 
 

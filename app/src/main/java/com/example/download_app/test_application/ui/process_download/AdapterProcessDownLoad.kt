@@ -1,4 +1,4 @@
-package com.example.download_app.ui.process_download
+package com.example.download_app.test_application.ui.process_download
 
 import android.app.DownloadManager
 import android.content.ContentValues
@@ -11,10 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ConstantDownLoadApp
+import com.example.download_app.ConstantDownLoadApp
 import com.example.download_app.R
-import com.example.download_app.model.ProcessData
-import com.example.download_app.viewmodel.ViewModelDownLoad
+import com.example.download_app.test_application.model.ProcessData
+import com.example.download_app.test_application.viewmodel.ViewModelDownLoad
 
 
 class AdapterProcessDownLoad(val viewModel: ViewModelDownLoad) :
@@ -110,7 +110,7 @@ class AdapterProcessDownLoad(val viewModel: ViewModelDownLoad) :
                 }
             }
         }
-        if (viewModel.dataProcessDownLoad[position].conditionControl==ConstantDownLoadApp.actionPause){
+        if (viewModel.dataProcessDownLoad[position].conditionControl== ConstantDownLoadApp.actionPause){
             holder.control.setImageResource(R.drawable.ic_baseline_play_circle_24)
         }
         else{

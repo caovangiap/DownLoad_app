@@ -1,4 +1,4 @@
-package com.example.download_app.model
+package com.example.download_app.test_application.model
 
 import android.os.Parcelable
 import androidx.lifecycle.LiveData
