@@ -1,12 +1,13 @@
-package com.example.download_app
+package com.example.download_app.test_application.ui
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.download_app.ui.download.FragmentShowStorage
-import com.example.download_app.ui.download.Fragment_DownLoad
-import com.example.download_app.ui.process_download.FragmentProcessDownLoad
-import com.example.download_app.viewmodel.ViewModelDownLoad
+import com.example.download_app.R
+import com.example.download_app.test_application.ui.download.FragmentShowStorage
+import com.example.download_app.test_application.ui.download.Fragment_DownLoad
+import com.example.download_app.test_application.ui.process_download.FragmentProcessDownLoad
+import com.example.download_app.test_application.viewmodel.ViewModelDownLoad
 import us.shandian.giga.settings.NewPipeSettings
 
 class MainActivity : AppCompatActivity() {
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                 vModelDownLoad.ACTION_SHOW_Storage -> {
                     val manager = supportFragmentManager.beginTransaction()
                     val fragmentShowStorage = FragmentShowStorage()
-                    manager.replace(R.id.Content, fragmentShowStorage,tagFragmentShowStorage)
+                    manager.replace(R.id.Content, fragmentShowStorage, tagFragmentShowStorage)
                     manager.commit()
                 }
                 "Manager"->{

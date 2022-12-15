@@ -1,4 +1,4 @@
-package com.example.download_app.ui.process_download
+package com.example.download_app.test_application.ui.process_download
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -8,11 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.download_app.MainActivity
+import com.example.download_app.test_application.ui.MainActivity
 import com.example.download_app.R
 import com.example.download_app.databinding.FragmentProcessDownloadBinding
-import com.example.download_app.model.ProcessData
-import com.example.download_app.viewmodel.ViewModelDownLoad
+import com.example.download_app.test_application.viewmodel.ViewModelDownLoad
 
 class FragmentProcessDownLoad : Fragment() {
 

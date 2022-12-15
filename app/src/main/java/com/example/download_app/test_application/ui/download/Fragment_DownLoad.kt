@@ -1,4 +1,4 @@
-package com.example.download_app.ui.download
+package com.example.download_app.test_application.ui.download
 
 
 
@@ -8,9 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.download_app.MainActivity
+import com.example.download_app.test_application.ui.MainActivity
 import com.example.download_app.databinding.FragmentDownloadBinding
-import com.example.download_app.viewmodel.ViewModelDownLoad
+import com.example.download_app.test_application.viewmodel.ViewModelDownLoad
 
 /**
  *  fragment phát action tải app + show storage
