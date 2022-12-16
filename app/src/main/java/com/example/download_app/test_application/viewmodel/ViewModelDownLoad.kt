@@ -15,7 +15,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.download_app.ConstantDownLoadApp
-import com.example.download_app.core_download.core.DownLoadTask
 import com.example.download_app.test_application.ui.MainActivity
 import com.example.download_app.test_application.model.ProcessData
 import com.example.download_app.test_application.model.StorageData
