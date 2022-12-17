@@ -1,15 +1,14 @@
 package com.example.download_app.core_download
 
-
+import alirezat775.lib.downloader.core.DownloadTask
+import alirezat775.lib.downloader.core.OnDownloadListener
+import alirezat775.lib.downloader.core.database.DownloaderDatabase
+import alirezat775.lib.downloader.helper.ConnectionHelper
 import android.Manifest
 import android.content.Context
 import android.os.AsyncTask
 import androidx.annotation.CheckResult
 import androidx.annotation.RequiresPermission
-import com.example.download_app.core_download.core.DownloadTask
-import com.example.download_app.core_download.core.FuntionControl
-import com.example.download_app.core_download.core.database.DownloaderDatabase
-import com.example.download_app.core_download.helper.ConnectionHelper
 import java.lang.ref.WeakReference
 import java.net.MalformedURLException
 
@@ -63,7 +62,7 @@ class DownloaderFromUrl private constructor(downloadTask: DownloadTask) : IDownl
         private var mDownloadDir: String? = null
         private var mFileName: String? = null
         private var mExtension: String? = null
-        private var mDownloadListener: FuntionControl? = null
+        private var mDownloadListener: OnDownloadListener? = null
         private var mHeader: Map<String, String>? = null
         //endregion
 
@@ -82,7 +81,7 @@ class DownloaderFromUrl private constructor(downloadTask: DownloadTask) : IDownl
          * @return builder
          */
         @CheckResult
-        fun downloadListener(downloadListener: FuntionControl): Builder {
+        fun downloadListener(downloadListener: OnDownloadListener): Builder {
             this.mDownloadListener = downloadListener
             return this
         }
@@ -98,9 +97,9 @@ class DownloaderFromUrl private constructor(downloadTask: DownloadTask) : IDownl
         }
 
         /**
-         * @param fileName  for saving with this name
-         * @param extension extension of the file
-         * @return builder
+         * @param fileName  tên file
+         * @param extension đuôi file
+         * @return builder ( file sẽ có tên fileName.extension ) ví dụ giap.mp4
          */
         @CheckResult
         fun fileName(fileName: String, extension: String): Builder {
@@ -153,7 +152,7 @@ class DownloaderFromUrl private constructor(downloadTask: DownloadTask) : IDownl
                 mFileName,
                 mExtension
             )
-            return DownloaderFromUrl (downloadTask)
+            return DownloaderFromUrl(downloadTask)
         }
     }
 }

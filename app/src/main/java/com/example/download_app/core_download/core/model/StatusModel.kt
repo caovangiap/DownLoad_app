@@ -1,4 +1,4 @@
-package com.example.download_app.core_download.core.model
+package alirezat775.lib.downloader.core.model
 
 /**
  * Author:  Alireza Tizfahm Fard

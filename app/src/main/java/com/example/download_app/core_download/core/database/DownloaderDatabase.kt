@@ -1,12 +1,10 @@
-package com.example.download_app.core_download.core.database
+package alirezat775.lib.downloader.core.database
 
-
-
+import alirezat775.lib.downloader.core.model.DownloaderData
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.download_app.core_download.core.model.DownloaderData
 
 /**
  * Author:  Alireza Tizfahm Fard

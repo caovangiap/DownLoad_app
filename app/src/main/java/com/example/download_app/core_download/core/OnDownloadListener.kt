@@ -1,13 +1,15 @@
-package com.example.download_app.core_download.core
+package alirezat775.lib.downloader.core
 
 import java.io.File
 
-interface  FuntionControl {
-<<<<<<< HEAD
+/**
+ * Author:  Alireza Tizfahm Fard
+ * Date:    21/6/2019
+ * Email:   alirezat775@gmail.com
+ */
+
+interface OnDownloadListener {
     fun onStart()
-=======
-    fun onStartDownload()
->>>>>>> origin/master
     fun onPause()
     fun onResume()
     fun onProgressUpdate(percent: Int, downloadedSize: Int, totalSize: Int)

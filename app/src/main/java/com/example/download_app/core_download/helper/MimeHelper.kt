@@ -1,4 +1,4 @@
-package com.example.download_app.core_download.helper
+package alirezat775.lib.downloader.helper
 
 import androidx.annotation.Size
 import java.util.*

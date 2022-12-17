@@ -1,11 +1,10 @@
-package com.example.download_app.core_download.core.database
+package alirezat775.lib.downloader.core.database
 
+import alirezat775.lib.downloader.core.model.DownloaderData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.download_app.core_download.core.model.DownloaderData
-
 
 /**
  * Author:  Alireza Tizfahm Fard
@@ -15,7 +14,7 @@ import com.example.download_app.core_download.core.model.DownloaderData
 @Dao
 internal interface DownloaderDao {
 
-    @Query("SELECT * FROM DownLoaderData WHERE url IS :url")
+    @Query("SELECT * FROM DownloaderData WHERE url IS :url")
     fun getDownloadByUrl(url: String): DownloaderData
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

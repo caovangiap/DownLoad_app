@@ -1,4 +1,4 @@
-package com.example.download_app.core_download.core.model
+package alirezat775.lib.downloader.core.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
  */
 
 @Entity
- data class DownloaderData(
+internal data class DownloaderData(
     @PrimaryKey val id: Int,
     val url: String?,
     val filename: String?,
