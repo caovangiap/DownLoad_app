@@ -74,7 +74,10 @@ internal data class DownloadTask(
                 }
             }
 
-            // check file resume able if true set last size to request header
+            /**
+             * lấy data thông tin downloas thông qua Room DataBase vì khi pause đã lưu
+             * lấy data thông qua url
+              */
             if (resume) {
                 val model = dao?.getDownloadByUrl(url)
                 percent = model?.percent!!
@@ -164,6 +167,7 @@ internal data class DownloadTask(
 
     internal fun pause() {
         cancel(true)
+        // lưu thông tin vào room chờ resume lại
         dao?.updateDownload(url, StatusModel.PAUSE, percent, downloadedSize, totalSize)
         downloadListener?.onPause()
     }

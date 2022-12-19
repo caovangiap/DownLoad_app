@@ -1,4 +1,5 @@
 package com.example.download_app.test_application.viewmodel
+import alirezat775.lib.downloader.core.OnDownloadListener
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
@@ -8,6 +9,7 @@ import android.provider.MediaStore
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.download_app.core_download.DownloaderFromUrl
 import com.example.download_app.test_application.model.DownLoadProcess
 import com.example.download_app.test_application.ui.MainActivity
 import com.example.download_app.test_application.model.StorageData
@@ -15,6 +17,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.schabi.newpipe.extractor.stream.StreamInfo
 import us.shandian.giga.util.ExtractorHelper
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -85,6 +88,57 @@ class ViewModelDownLoad : ViewModel() {
         return resourceUrlYoutube
     }
 
+    //  object download
+    /**
+     * Mỗi lần gọi đến lớp này là đang tạo ra 1 thể hiện mới của downloader vì
+     * DownloaderFromUrl.Buile là tạo ra 1 object khác
+     */
+    fun getDownloader(fileName: String, url: String?,context: Context){
+        if (url!=null) {
+            val downloader = DownloaderFromUrl.Builder(
+                context,
+                url
+            )
+                .fileName(fileName, "mp4")
+                .downloadListener(object : OnDownloadListener {
+                    override fun onStart() {
+                        Log.d("", "onStart")
+                    }
+
+                    override fun onPause() {
+                        Log.d("", "onPause")
+                    }
+
+                    override fun onResume() {
+                        Log.d("", "onResume")
+                    }
+
+                    override fun onProgressUpdate(
+                        percent: Int,
+                        downloadedSize: Int,
+                        totalSize: Int
+                    ) {
+                        Log.d(
+                            "",
+                            "onProgressUpdate: percent --> $percent downloadedSize --> $downloadedSize totalSize --> $totalSize "
+                        )
+                    }
+
+                    override fun onCompleted(file: File?) {
+                        Log.d("", "onCompleted: file --> $file")
+                    }
+
+                    override fun onFailure(reason: String?) {
+                        Log.d("", "onFailure: reason --> $reason")
+                    }
+
+                    override fun onCancel() {
+                        Log.d("", "onCancel")
+                    }
+                }).build()
+            downloader.download()
+        }
+    }
 
 
     /**

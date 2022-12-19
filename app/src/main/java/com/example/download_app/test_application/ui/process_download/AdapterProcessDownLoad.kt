@@ -1,17 +1,10 @@
 package com.example.download_app.test_application.ui.process_download
 
-import android.app.DownloadManager
-import android.content.ContentValues
-import android.content.Context
-import android.net.Uri
-import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
-import com.example.download_app.ConstantDownLoadApp
 import com.example.download_app.R
 import com.example.download_app.test_application.model.DownLoadProcess
 import com.example.download_app.test_application.viewmodel.ViewModelDownLoad
