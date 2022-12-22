@@ -45,7 +45,7 @@ class Fragment_DownLoad : Fragment() {
     fun allFuncition() {
         /**
          * lấy ra url tài nguyên từ đường dẫn url gốc
-          */
+         */
 
         resourceUrlDownload = viewModel.getUrlVideo(
             "https://www.youtube.com/watch?v=Roh8cCJ_qKw",
@@ -62,11 +62,12 @@ class Fragment_DownLoad : Fragment() {
                     "https://www.youtube.com/watch?v=Roh8cCJ_qKw",
                 )
                 if (resourceUrlDownload != null) {
-                   viewModel.getDownloader(fileName, resourceUrlDownload,requireContext())
+                    downloader =
+                        viewModel.getDownloader(fileName, resourceUrlDownload, requireContext())
+                    downloader!!.download()
                 }
-                downloader?.download()
             } else {
-                Toast.makeText(context, "Vui lòng nhập đường dẫn video", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "Vui lòng đặt tên cho video", Toast.LENGTH_SHORT)
                     .show()
             }
         }
@@ -75,14 +76,18 @@ class Fragment_DownLoad : Fragment() {
          */
 
         binding.AllVideo.setOnClickListener {
-            viewModel.nextAction.value = viewModel.ACTION_SHOW_Storage
+//            viewModel.nextAction.value = viewModel.ACTION_SHOW_Storage
+            downloader?.pauseDownload()
         }
 
         /**
          * tien trình downLoad
          */
         binding.ProcessDownLoad.setOnClickListener {
-            viewModel.nextAction.value = viewModel.ACTION_PROCESS_DOWNLOAD
+ //           viewModel.nextAction.value = viewModel.ACTION_PROCESS_DOWNLOAD
+            downloader =
+                viewModel.getDownloader(fileName, resourceUrlDownload, requireContext())
+            downloader?.resumeDownload()
         }
     }
 }

@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -93,11 +94,11 @@ class ViewModelDownLoad : ViewModel() {
      * Mỗi lần gọi đến lớp này là đang tạo ra 1 thể hiện mới của downloader vì
      * DownloaderFromUrl.Buile là tạo ra 1 object khác
      */
-    fun getDownloader(fileName: String, url: String?,context: Context){
-        if (url!=null) {
+    fun getDownloader(fileName: String, url: String?,context: Context): DownloaderFromUrl {
+
             val downloader = DownloaderFromUrl.Builder(
                 context,
-                url
+                url!!
             )
                 .fileName(fileName, "mp4")
                 .downloadListener(object : OnDownloadListener {
@@ -136,8 +137,8 @@ class ViewModelDownLoad : ViewModel() {
                         Log.d("", "onCancel")
                     }
                 }).build()
-            downloader.download()
-        }
+            return downloader
+
     }
 
 

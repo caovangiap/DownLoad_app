@@ -8,6 +8,7 @@ import alirezat775.lib.downloader.helper.ConnectionHelper
 import alirezat775.lib.downloader.helper.MimeHelper
 import android.content.Context
 import android.os.AsyncTask
+import android.os.Environment
 import android.util.Log
 import android.util.Pair
 import java.io.BufferedInputStream
@@ -95,10 +96,12 @@ internal data class DownloadTask(
             // check file size
             if (!resume) totalSize = connection?.contentLength!!
 
-            // downloaded file
-            downloadedFile = File(downloadDir + File.separator + fileName + "." + extension)
+            // Địa chỉ file được truyền dữ liệu xuống
+            downloadedFile = File(downloadDir )
 
-            Log.d("path",downloadDir + File.separator + fileName + "." + extension)
+
+            Log.d("path",downloadDir.toString()  )
+            Log.d("path2", File.separator )
 
             // check file completed
             if (downloadedFile!!.exists() && downloadedFile?.length() == totalSize.toLong()) {
@@ -131,7 +134,6 @@ internal data class DownloadTask(
                     dao?.updateDownload(url, StatusModel.DOWNLOADING, percent, downloadedSize, totalSize)
                 }
             }
-
             // close stream and connection
             bufferedOutputStream.flush()
             bufferedOutputStream.close()
@@ -192,4 +194,5 @@ internal data class DownloadTask(
             extension = MimeHelper.guessExtensionFromMimeType(contentType)
         }
     }
+
 }

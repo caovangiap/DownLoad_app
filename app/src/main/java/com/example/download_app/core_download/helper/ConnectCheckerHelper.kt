@@ -3,13 +3,7 @@ package alirezat775.lib.downloader.helper
 import android.Manifest
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
-import android.net.NetworkInfo
-import androidx.core.content.ContextCompat.getSystemService
 
 
 
