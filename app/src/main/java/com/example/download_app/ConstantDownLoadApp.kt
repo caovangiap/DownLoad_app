@@ -10,4 +10,5 @@ object ConstantDownLoadApp {
     val actionResume = "ACTION_RESUME_DOWNLOAD_FILE"
     val actionDownLoadComplete = "ACTION_DOWNLOAD_COMPLETE"
     val actionRunning = " ACTION_RUNNING"
+    val actionPause = "ACTION_PAUSE_DOWNLOAD_FILE"
 }

@@ -1,10 +1,13 @@
 package com.example.download_app.test_application.ui.download
 
 import android.app.AlertDialog
+import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
+import android.provider.MediaStore
+import android.util.Log
 import android.util.Size
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -16,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.download_app.R
 import com.example.download_app.test_application.model.StorageData
+import com.example.download_app.test_application.ui.MainActivity
 import com.example.download_app.test_application.viewmodel.ViewModelDownLoad
 
 /**
@@ -24,8 +28,6 @@ import com.example.download_app.test_application.viewmodel.ViewModelDownLoad
 
 class AdapterShowStorage(
     val dataVideo: MutableList<StorageData>,
-    val ViewModel: ViewModelDownLoad,
-    val fragment : FragmentShowStorage
 ) : RecyclerView.Adapter<AdapterShowStorage.ViewHolder>() {
 
     lateinit var ACTION_CODE : String
@@ -75,7 +77,8 @@ class AdapterShowStorage(
                 .load(dataVideo[position].Uri)
                 .into(holder.videoThumb)
         }
-        holder.time.text = dataVideo[position].Dration.toString()
+        Log.d("uri",dataVideo[position].Uri.toString())
+        holder.time.text = dataVideo[position].Dration
         holder.name.text = dataVideo[position].Name
 
         /**
@@ -143,14 +146,13 @@ class AdapterShowStorage(
                         .show()
 
                 } else {
-
                     // cập nhật thông tin cho file external của app khác
-                    fragment.updateItemsMediaRecycler(
+                   updateVideo(
                         dataVideo[position].id,
                         inputTextChange.text.toString(),
                         dataVideo[position].Uri,
-                        position
                     )
+                    itemsChange(position,inputTextChange.text.toString())
                 }
             }
             .show()
@@ -168,16 +170,72 @@ class AdapterShowStorage(
             .setMessage("Bạn muốn xóa items này ?")
             .setPositiveButton("OK") { dialog, which ->
                     // cập nhật thông tin cho file external của app khác
-                fragment.updateItemsMediaRecycler(
+                deleteVideo(
                     dataVideo[position].id,
-                    "",
                     dataVideo[position].Uri,
-                    position
                 )
+                removeItems(position)
             }
             .setNegativeButton("Cancel"){ dialog,which ->
                 dialog.dismiss()
             }
             .show()
     }
+
+    /**
+     * chỉnh sửa thông tin file
+     */
+    fun updateVideo(mediaId: Long, updateName: String, myFavoriteSongUri: Uri) {
+
+        // Updates an existing media item.
+        val resolver = MainActivity.ApplicationContext.contentResolver
+
+        // When performing a single item update, prefer using the ID
+        val selection = "${MediaStore.Audio.Media._ID} = ?"
+
+        // By using selection + args we protect against improper escaping of // values.
+        val selectionArgs = arrayOf(mediaId.toString())
+
+        // Update an existing song.
+        val updatedSongDetails = ContentValues().apply {
+            put(MediaStore.Audio.Media.DISPLAY_NAME, updateName)
+        }
+
+// Use the individual song's URI to represent the collection that's
+// updated.
+
+        resolver.update(
+            myFavoriteSongUri,
+            updatedSongDetails,
+            selection,
+            selectionArgs
+        )
+    }
+
+    /**
+     * Xóa file external
+     */
+    fun deleteVideo(mediaId: Long, myFavoriteSongUri: Uri) {
+
+        // Updates an existing media item.
+        val resolver = MainActivity.ApplicationContext.contentResolver
+
+        // When performing a single item update, prefer using the ID
+        val selection = "${MediaStore.Audio.Media._ID} = ?"
+
+        // By using selection + args we protect against improper escaping of // values.
+        val selectionArgs = arrayOf(mediaId.toString())
+
+
+// Use the individual song's URI to represent the collection that's
+// updated.
+        resolver.delete(
+            myFavoriteSongUri,
+            selection,
+            selectionArgs
+        )
+
+    }
+
+
 }

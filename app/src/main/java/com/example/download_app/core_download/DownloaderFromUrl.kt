@@ -5,7 +5,6 @@ import alirezat775.lib.downloader.core.OnDownloadListener
 import alirezat775.lib.downloader.core.database.DownloaderDatabase
 import alirezat775.lib.downloader.helper.ConnectionHelper
 import android.Manifest
-import android.content.ContentValues
 import android.content.Context
 import android.os.AsyncTask
 import android.os.Environment
@@ -26,7 +25,7 @@ class DownloaderFromUrl private constructor(downloadTask: DownloadTask) : IDownl
 
     //region field
     private var mDownloadTask: DownloadTask? = null
-    //endregion
+
 
     //region initialize
     init {
@@ -49,13 +48,14 @@ class DownloaderFromUrl private constructor(downloadTask: DownloadTask) : IDownl
     }
 
     override fun pauseDownload() {
-        mDownloadTask?.pause()
-        mDownloadTask = null
+            mDownloadTask?.pause()
+            mDownloadTask = null
     }
 
     override fun resumeDownload() {
-        mDownloadTask?.resume = true
-        download()
+            mDownloadTask?.resume = true
+            download()
+
     }
     //endregion
 
@@ -142,7 +142,6 @@ class DownloaderFromUrl private constructor(downloadTask: DownloadTask) : IDownl
                 if (mDownloadDir == null || mDownloadDir!!.isEmpty()) {
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath
                 }
-               // getExternalStorage().toString()
                 else mDownloadDir
 
             mTimeOut =
@@ -160,6 +159,7 @@ class DownloaderFromUrl private constructor(downloadTask: DownloadTask) : IDownl
                 mFileName,
                 mExtension
             )
+
             return DownloaderFromUrl(downloadTask)
         }
     }

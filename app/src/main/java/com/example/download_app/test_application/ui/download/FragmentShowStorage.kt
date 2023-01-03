@@ -2,26 +2,26 @@ package com.example.download_app.test_application.ui.download
 
 import android.Manifest
 import android.app.Activity
-import android.app.RecoverableSecurityException
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.download_app.test_application.ui.MainActivity
 import com.example.download_app.R
 import com.example.download_app.databinding.FragmentShowStorageBinding
-
 import com.example.download_app.test_application.viewmodel.ViewModelDownLoad
 
 
@@ -63,13 +63,13 @@ class FragmentShowStorage : Fragment() {
                     adapterItemsStorage.itemsChange(
                         positionMediaUpdateofFragmentShowStorage!!, contentMediaUpdaterFragmentShowStorage!!
                     )
-                    viewModel.updateVideo(idMediaUpdaterFragmentShowStorage!!,contentMediaUpdaterFragmentShowStorage!!,uriMediaUpdaterFragmentShowStorage!!)
+                    adapterItemsStorage.updateVideo(idMediaUpdaterFragmentShowStorage!!,contentMediaUpdaterFragmentShowStorage!!,uriMediaUpdaterFragmentShowStorage!!)
                 }
                 /**
                  * Remove Items nếu được đồng ý
                  */
                 if (adapterItemsStorage.ACTION_CODE == adapterItemsStorage.REMOVE_CODE){
-                    viewModel.deleteVideo(idMediaUpdaterFragmentShowStorage!!,uriMediaUpdaterFragmentShowStorage!!)
+                    adapterItemsStorage.deleteVideo(idMediaUpdaterFragmentShowStorage!!,uriMediaUpdaterFragmentShowStorage!!)
                     adapterItemsStorage.removeItems(positionMediaUpdateofFragmentShowStorage!!)
                 }
 
@@ -78,6 +78,7 @@ class FragmentShowStorage : Fragment() {
                     .show()
             }
         }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -90,6 +91,7 @@ class FragmentShowStorage : Fragment() {
         allFunction()
         return mView
     }
+
 
 
     fun allFunction() {
@@ -118,24 +120,28 @@ class FragmentShowStorage : Fragment() {
      * check quyền đọc ghi dữ liệu
      */
 
+
     fun CheckPermission() {
 
         /**
          * xin quyền với trường hợp từ android 10 trở lên
          */
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
-            try {
-                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                val uri = Uri.fromParts("package", context?.packageName, null)
-                intent.data = uri
-                StoragePermissionLauncherResults.launch(intent)
-
-            } catch (e: java.lang.Exception) {
-                val intent = Intent()
-                intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
-                StoragePermissionLauncherResults.launch(intent)
-            }
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
+//            try {
+//                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+//                val uri = Uri.fromParts("package", context?.packageName, null)
+//                intent.data = uri
+//                StoragePermissionLauncherResults.launch(intent)
+//                Log.d("","Lớn hơn 10")
+//            } catch (e: java.lang.Exception) {
+//                val intent = Intent()
+//                intent.action = Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION
+//                StoragePermissionLauncherResults.launch(intent)
+//                Log.d("","bé hơn 10")
+//            }
+            Log.d("Fragment_Show _Storage","Lớn hơn 10")
+            viewModel.getDataStorage()
         }
         /**
          * dưới androis 10
@@ -144,21 +150,19 @@ class FragmentShowStorage : Fragment() {
         else {
             // xin quyền khi chưa có
             requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-
         }
     }
 
     /**
      *  sử lý action sau khi xin quyền với android < android 10
      */
+
     val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-
                 viewModel.getDataStorage()
-
 
             } else {
 
@@ -186,10 +190,14 @@ class FragmentShowStorage : Fragment() {
     /**
      * xử lý action sau khi câp quyền --> thay the cho  start activityForResults
      */
+
+
+
     val StoragePermissionLauncherResults =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) {
+            // với các phiên bản từ 11 trở lên
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 if (Environment.isExternalStorageManager()) {
                     // lay giu lieu storage
@@ -199,6 +207,16 @@ class FragmentShowStorage : Fragment() {
                     Toast.makeText(context, "false Permission", Toast.LENGTH_SHORT)
                 }
             }
+            // các phiên bản androoid 6 trở lên 11
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.R){
+                    if (context?.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)  ==PackageManager.PERMISSION_GRANTED){
+                        viewModel.getDataStorage()
+                        Toast.makeText(context, "Permission Success 1", Toast.LENGTH_SHORT)
+                    }
+                    else {
+                        Toast.makeText(context, "false Permission", Toast.LENGTH_SHORT)
+                    }
+                }
         }
 
     /**
@@ -206,86 +224,15 @@ class FragmentShowStorage : Fragment() {
      */
 
     fun showVideoStorage() {
-        val fragment = activity?.supportFragmentManager?.findFragmentByTag(MainActivity.tagFragmentShowStorage) as FragmentShowStorage
+
         viewModel.allVideoStorage.observe(viewLifecycleOwner) {
-            adapterItemsStorage = AdapterShowStorage(it, viewModel,fragment)
+            adapterItemsStorage = AdapterShowStorage(it)
             binding.allItems.adapter = adapterItemsStorage
             binding.allItems.layoutManager =
                 GridLayoutManager(context, 2, LinearLayoutManager.VERTICAL, false)
         }
     }
 
-    /**
-     * lắng nghe sự kiện update items từ recyclerview AdapterShowStorage ( REMOVE OR EDIT )
-     */
-
-    fun updateItemsMediaRecycler(id: Long, Text: String, url: Uri, possition: Int) {
-        idMediaUpdaterFragmentShowStorage = id
-        uriMediaUpdaterFragmentShowStorage = url
-        contentMediaUpdaterFragmentShowStorage = Text
-        positionMediaUpdateofFragmentShowStorage= possition
-        /**
-         * lắng nghe sự kiện edit từ recycler view adapter
-         */
-        if (adapterItemsStorage.ACTION_CODE == adapterItemsStorage.EDIT_CODE){
-            try {
-                viewModel.updateVideo(
-                    id,
-                    Text,
-                    url
-                )
-                adapterItemsStorage.itemsChange(
-                    possition,Text)
-
-                // khi update nhưng file external thhuoocj app khác
-            } catch (securityException: SecurityException) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    val recoverableSecurityException = securityException as?
-                            RecoverableSecurityException
-                        ?: throw RuntimeException(securityException.message, securityException)
-
-                    val intentSender =
-                        recoverableSecurityException.userAction.actionIntent.intentSender
-                    intentSender.let { sender ->
-                        intentSenderLaucher.launch(
-                            IntentSenderRequest.Builder(sender).build()
-                        )
-                    }
-                } else {
-                    throw RuntimeException(securityException.message, securityException)
-                }
-            }
-        }
-
-        /**
-         * lắng nghe sự kiện remove từ recycler view adapter
-         */
-        if (adapterItemsStorage.ACTION_CODE == adapterItemsStorage.REMOVE_CODE){
-            try {
-                viewModel.deleteVideo(id,url)
-                adapterItemsStorage.removeItems(possition)
-
-                // khi remove nhưng file external thhuoocj app khác
-            } catch (securityException: SecurityException) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    val recoverableSecurityException = securityException as?
-                            RecoverableSecurityException
-                        ?: throw RuntimeException(securityException.message, securityException)
-
-                    val intentSender =
-                        recoverableSecurityException.userAction.actionIntent.intentSender
-                    intentSender.let { sender ->
-                        intentSenderLaucher.launch(
-                            IntentSenderRequest.Builder(sender).build()
-                        )
-                    }
-                } else {
-                    throw RuntimeException(securityException.message, securityException)
-                }
-            }
-        }
-
-    }
 
 
 
