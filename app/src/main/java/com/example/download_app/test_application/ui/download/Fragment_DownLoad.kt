@@ -2,12 +2,9 @@ package com.example.download_app.test_application.ui.download
 
 
 import android.Manifest
-import android.app.Activity
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,10 +14,6 @@ import androidx.fragment.app.Fragment
 import com.example.download_app.databinding.FragmentDownloadBinding
 import com.example.download_app.test_application.ui.MainActivity
 import com.example.download_app.test_application.viewmodel.ViewModelDownLoad
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.io.File
 
 
@@ -39,12 +32,15 @@ class Fragment_DownLoad : Fragment() {
     // lấy ra đường dẫn tài nguyên url của youtube
     private var resourceUrlDownload: String? = null
 
+    // folder mặc định để download
+    private var nameOfFolderDownLoad: String = "/Download_app"
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentDownloadBinding.inflate(inflater, container, false)
         mView = binding.root
         viewModel = MainActivity.vModelDownLoad
@@ -68,10 +64,10 @@ class Fragment_DownLoad : Fragment() {
         binding.download.setOnClickListener {
             //chọn local file to download
             fileName = binding.myUrl.text.toString()
-            chooseFolder(fileName)
             resourceUrlDownload = viewModel.getUrlVideo(
                 "https://www.youtube.com/watch?v=5uTz-wgV9Dg&t=11s",
             )
+            checkFolderExist()
         }
 
 
@@ -111,44 +107,79 @@ class Fragment_DownLoad : Fragment() {
         }
     }
 
-    /**
-     * chọn folder để download để lưu file sau download
-     */
-    fun chooseFolder(fileName: String) {
-        if (fileName!=""){
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
-//                addCategory(Intent.CATEGORY_OPENABLE)
-//                type = "*/*"
-//                putExtra(Intent.EXTRA_TITLE, fileName)
+// choose folder download cho user
+//    /**
+//     * chọn folder để download để lưu file sau download
+//     */
+//    fun chooseFolder(fileName: String) {
+//        if (fileName != "") {
+//            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
+//            }
+//            chooseFolder.launch(intent)
+//        } else {
+//            Toast.makeText(context, "Bạn chưa đặt tên cho file", Toast.LENGTH_SHORT)
+//                .show()
+//        }
+//    }
+//
+//    /**
+//     * lấy ra uri folder từ intent cho phép download xuống
+//     */
+//    val chooseFolder =
+//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
+//            it.data?.data.let {
+//                if (it != null) {
+//                    copyFileToExternalStorage(it.encodedPath)
+//                }
+//            }
+//        }
+//
+//    /**
+//     *  use ContentResolver viết file bằng uri
+//     */
+//    private fun copyFileToExternalStorage(destination: String?) {
+//        val startDownload =
+//            viewModel.getDownloader(
+//                fileName,
+//                "",
+//                resourceUrlDownload,
+//                requireContext()
+//            )
+//        startDownload.download()
+//    }
+
+
+    // check folder exist và tải về file
+    fun checkFolderExist() {
+        val file =
+            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + nameOfFolderDownLoad)
+
+        if (file.exists() && file.isDirectory) {
+            if (fileName != "") {
+                downloadFile()
             }
-            chooseFolder.launch(intent)
-        }else{
-            Toast.makeText(context, "Bạn chưa đặt tên cho file", Toast.LENGTH_SHORT)
-                .show()
+        } else {
+            file.mkdir()
+            downloadFile()
         }
     }
 
-    /**
-     * lấy ra uri folder từ intent cho phép download xuống
-     */
-    val chooseFolder = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
-        it.data?.data.let {
-            if (it != null) {
-                 copyFileToExternalStorage(it.toString())
-            }
-        }
-    }
-    // use ContentResolver viết file bằng uri
-    private fun copyFileToExternalStorage(destination: String) {
+    fun downloadFile() {
+        if (fileName != "") {
             val startDownload =
                 viewModel.getDownloader(
                     fileName,
-                    destination,
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + nameOfFolderDownLoad,
                     resourceUrlDownload,
                     requireContext()
                 )
-            Log.d("results", resourceUrlDownload.toString())
             startDownload.download()
+            Toast.makeText(context, "video nằm trong file Download_app", Toast.LENGTH_SHORT)
+                .show()
+        } else {
+            Toast.makeText(context, "Bạn chưa đặt tên cho file dowwnload", Toast.LENGTH_SHORT)
+                .show()
+        }
     }
 
 }
