@@ -172,6 +172,14 @@
     <string name="edit_name">Edit Name</string>
     <string name="remove">Remove</string>
     <string name="process_download">Process_DownLoad</string>
+    <string name="trang_ch">Trang Chủ</string>
+    <string name="story">ProcessDownload</string>
+    <string name="l_ch_s">Lịch Sử</string>
+    <string name="v_tr_l_u_tr">Vị trí lưu trữ</string>
+    <string name="opent_navigation"> opent navigation</string>
+    <string name="close_navigation"> close navigation</string>
+    <string name="cop_link_video_v_o_n_i_n_y">cop link video vào nơi này</string>
+    <string name="d_n_link">Dán Link</string>
 
 
 </resources>

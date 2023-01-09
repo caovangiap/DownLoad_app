@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 rootProject.name = "DownLoad_App"
 include ':app'
 
+include ':core_download'

@@ -1,15 +1,12 @@
 package com.example.download_app.test_application.viewmodel
 
-import alirezat775.lib.downloader.core.OnDownloadListener
+import caogiap.lib.downloader.core.OnDownloadListener
 import android.content.ContentUris
-import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
 import android.os.Build
-import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.download_app.core_download.DownloaderFromUrl
@@ -23,7 +20,6 @@ import us.shandian.giga.util.ExtractorHelper
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 /**
@@ -31,35 +27,33 @@ import java.util.concurrent.TimeUnit
  */
 class ViewModelDownLoad : ViewModel() {
 
-    // header khai báo biến
-    /** action di chuyển các màn
-     *
-     */
+    /**
+     * header khai báo biến
+      */
+    // action di chuyển các màn
+
     val ACTION_SHOW_Storage = "ACTION_SHOW_STORAGE_DOWNLOAD"
     val ACTION_PROCESS_DOWNLOAD = "DISPLAY_PROCESS_DOWNLOAD"
     val nextAction = MutableLiveData<String>()
 
-    /**
-     * live data storage hiển thị recycle
-     */
+     // live data storage hiển thị recycle
     val allVideoStorage = MutableLiveData<MutableList<StorageData>>()
 
-    /**
-     * object là 1 list các tiến trình download
-     */
 
+     // object là 1 list các tiến trình download
     val dataProcessDownLoad = mutableListOf<DownLoadProcess>()
     val liveDataProcessDownLoad = MutableLiveData<MutableList<DownLoadProcess>>()
 
-    /**
-     * vị trí items thay đổi
-     */
+     // vị trí items thay đổi
     var position = 0
 
-    /**
-     * đường dẫn tài nguyên youtube
-     */
+
+    //đường dẫn tài nguyên youtube
     var resourceUrlYoutube: String? = null
+
+    // livedata cảnh báo lỗi
+    val bugDownloadFailer = MutableLiveData<String>()
+
 
 
     // main code
@@ -86,7 +80,6 @@ class ViewModelDownLoad : ViewModel() {
         return resourceUrlYoutube
     }
 
-    //  object download
     /**
      * Mỗi lần gọi đến lớp này là đang tạo ra 1 thể hiện mới của downloader vì
      * DownloaderFromUrl.Buile là tạo ra 1 object khác
@@ -98,7 +91,6 @@ class ViewModelDownLoad : ViewModel() {
             url!!
         )
             .fileName(fileName,"mp4")
-//            .downloadDirectory("/storage/emulated/0/Download/New Folder")
             .downloadDirectory(locationUrl)
             .downloadListener(object : OnDownloadListener {
                 override fun onStart() {
@@ -130,6 +122,7 @@ class ViewModelDownLoad : ViewModel() {
 
                 override fun onFailure(reason: String?) {
                     Log.d("", "onFailure: reason --> $reason")
+                    bugDownloadFailer.value = reason.toString()
                 }
 
                 override fun onCancel() {
@@ -140,11 +133,9 @@ class ViewModelDownLoad : ViewModel() {
 
     }
 
-
     /**
      * get data from storage
      */
-
     fun getDataStorage() {
         // android 10 and above
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
