@@ -17,7 +17,9 @@ import com.example.download_app.test_application.ui.MainActivity
 import com.example.download_app.test_application.viewmodel.ViewModelDownLoad
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 import java.io.File
 
 
@@ -33,8 +35,8 @@ class Fragment_DownLoad : Fragment() {
 
     private var fileName: String = ""
 
-    // lấy ra đường dẫn tài nguyên url của youtube
-    private var resourceUrlDownload: String = ""
+    // url của youtube
+    private var UrlDownload: String = ""
 
     // folder mặc định để download
     private var nameOfFolderDownLoad: String = "/Download_app"
@@ -120,7 +122,7 @@ class Fragment_DownLoad : Fragment() {
 //        startDownload.download()
 //    }
 
-    fun allFunticion(){
+    fun allFunticion() {
         binding.downloadBt.setOnClickListener {
             checkFolderExist()
         }
@@ -128,41 +130,34 @@ class Fragment_DownLoad : Fragment() {
 
     // check folder exist và tải về file
     fun checkFolderExist() {
-        resourceUrlDownload = "https://www.youtube.com/watch?v=QadaRNZS2Ms"
+        UrlDownload = "https://www.youtube.com/watch?v=QadaRNZS2Ms"
         val file =
             File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + nameOfFolderDownLoad)
 
         if (file.exists() && file.isDirectory) {
-            if (resourceUrlDownload != "") {
-                CoroutineScope(Dispatchers.IO).launch {
-                    val delay = CoroutineScope(Dispatchers.IO).launch {
-                        viewModel.getUrlVideo(resourceUrlDownload)
-                    }
-                    delay.join()
-                    downloadFile()
-                }
+            if (UrlDownload != "") {
+                viewModel.getUrlVideo(UrlDownload).toString()
+                downloadFile()
             }
         } else {
             file.mkdir()
-            CoroutineScope(Dispatchers.IO).launch {
-                val delay = CoroutineScope(Dispatchers.IO).launch {
-                    viewModel.getUrlVideo(resourceUrlDownload)
-                }
-                delay.join()
-                downloadFile()
-            }
+            viewModel.getUrlVideo(UrlDownload).toString()
+            downloadFile()
         }
     }
 
     fun downloadFile() {
+        fileName = binding.urlVideo.text.toString()
+        viewModel.resourceUrlYoutube.observe(viewLifecycleOwner) {
             val startDownload =
                 viewModel.getDownloader(
-                    "12333",
+                    fileName,
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + nameOfFolderDownLoad,
-                    resourceUrlDownload,
+                    it,
                     requireContext()
                 )
             startDownload.download()
+        }
 
     }
 

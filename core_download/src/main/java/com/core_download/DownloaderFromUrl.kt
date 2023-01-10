@@ -14,16 +14,14 @@ import java.lang.ref.WeakReference
 import java.net.MalformedURLException
 
 /**
- * Author:  Alireza Tizfahm Fard
- * Date:    21/6/2019
- * Email:   alirezat775@gmail.com
+ * Cao Giap 10/1/2023
  */
 
 class DownloaderFromUrl private constructor(downloadTask: DownloadTask) : IDownload {
 
     //region field
     private var mDownloadTask: DownloadTask? = null
-
+    //endregion
 
     //region initialize
     init {
@@ -46,14 +44,13 @@ class DownloaderFromUrl private constructor(downloadTask: DownloadTask) : IDownl
     }
 
     override fun pauseDownload() {
-            mDownloadTask?.pause()
-            mDownloadTask = null
+        mDownloadTask?.pause()
+        mDownloadTask = null
     }
 
     override fun resumeDownload() {
-            mDownloadTask?.resume = true
-            download()
-
+        mDownloadTask?.resume = true
+        download()
     }
     //endregion
 
@@ -99,9 +96,9 @@ class DownloaderFromUrl private constructor(downloadTask: DownloadTask) : IDownl
         }
 
         /**
-         * @param fileName  tên file
-         * @param extension đuôi file
-         * @return builder ( file sẽ có tên fileName.extension ) ví dụ giap.mp4
+         * @param fileName  for saving with this name
+         * @param extension extension of the file
+         * @return builder
          */
         @CheckResult
         fun fileName(fileName: String, extension: String): Builder {
@@ -131,15 +128,13 @@ class DownloaderFromUrl private constructor(downloadTask: DownloadTask) : IDownl
         }
 
         fun build(): DownloaderFromUrl {
-
             mUrl =
                 if (mUrl.isEmpty()) throw MalformedURLException("The entered URL is not valid")
                 else mUrl
 
             mDownloadDir =
-                if (mDownloadDir == null || mDownloadDir!!.isEmpty()) {
+                if (mDownloadDir == null || mDownloadDir!!.isEmpty())
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath
-                }
                 else mDownloadDir
 
             mTimeOut =
@@ -157,7 +152,6 @@ class DownloaderFromUrl private constructor(downloadTask: DownloadTask) : IDownl
                 mFileName,
                 mExtension
             )
-
             return DownloaderFromUrl(downloadTask)
         }
     }

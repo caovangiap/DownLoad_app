@@ -5,9 +5,7 @@ import java.util.*
 import java.util.regex.Pattern
 
 /**
- * Author:  Alireza Tizfahm Fard
- * Date:    21/6/2019
- * Email:   alirezat775@gmail.com
+ * Cao Giap 10/1/2023
  */
 
 internal object MimeHelper {

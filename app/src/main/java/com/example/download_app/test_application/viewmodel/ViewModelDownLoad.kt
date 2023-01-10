@@ -27,14 +27,8 @@ import java.util.*
  */
 class ViewModelDownLoad : ViewModel() {
 
-    /**
-     * header khai báo biến
-      */
-    // action di chuyển các màn
 
-    val ACTION_SHOW_Storage = "ACTION_SHOW_STORAGE_DOWNLOAD"
-    val ACTION_PROCESS_DOWNLOAD = "DISPLAY_PROCESS_DOWNLOAD"
-    val nextAction = MutableLiveData<String>()
+
 
      // live data storage hiển thị recycle
     val allVideoStorage = MutableLiveData<MutableList<StorageData>>()
@@ -49,7 +43,7 @@ class ViewModelDownLoad : ViewModel() {
 
 
     //đường dẫn tài nguyên youtube
-    var resourceUrlYoutube: String? = null
+    var resourceUrlYoutube = MutableLiveData<String>()
 
     // livedata cảnh báo lỗi
     val bugDownloadFailer = MutableLiveData<String>()
@@ -60,7 +54,7 @@ class ViewModelDownLoad : ViewModel() {
     /**
      *  get url youtube cho vao StartDownLoad
      */
-    fun getUrlVideo(url: String): String? {
+    fun getUrlVideo(url: String) {
         // thư viện nhận url của youtube thông qua thư viện
         ExtractorHelper.getStreamInfo(0, url, true)
             .subscribeOn(Schedulers.io())
@@ -70,25 +64,24 @@ class ViewModelDownLoad : ViewModel() {
                     result: StreamInfo? ->
 
                 if (result != null) {
-                    resourceUrlYoutube = result.videoStreams[1].content
+                    resourceUrlYoutube.value= result.videoStreams[1].content
                     Log.d("url",result.videoStreams[1].content.toString())
                 }
             })
             { throwable: Throwable? ->
                 Log.d("false", "false")
             }
-        return resourceUrlYoutube
     }
 
     /**
      * Mỗi lần gọi đến lớp này là đang tạo ra 1 thể hiện mới của downloader vì
      * DownloaderFromUrl.Buile là tạo ra 1 object khác
      */
-    fun getDownloader(fileName: String,locationUrl: String, url: String?, context: Context): DownloaderFromUrl {
+    fun getDownloader(fileName: String,locationUrl: String,url: String, context: Context): DownloaderFromUrl {
 
         val downloader = DownloaderFromUrl.Builder(
             context,
-            url!!
+            url
         )
             .fileName(fileName,"mp4")
             .downloadDirectory(locationUrl)
@@ -118,6 +111,7 @@ class ViewModelDownLoad : ViewModel() {
 
                 override fun onCompleted(file: File?) {
                     Log.d("", "onCompleted: file --> $file")
+
                 }
 
                 override fun onFailure(reason: String?) {

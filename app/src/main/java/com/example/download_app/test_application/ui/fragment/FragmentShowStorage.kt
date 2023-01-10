@@ -46,7 +46,6 @@ class FragmentShowStorage : Fragment() {
     // biến lắng nghe sự kiện nếu người dùng chọn don't ask again
     val checkDontAskAgain =
         shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)
-
     /**
      * cấp quyền đọc sửa file của app khác
      */
@@ -78,7 +77,6 @@ class FragmentShowStorage : Fragment() {
             }
         }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -91,12 +89,9 @@ class FragmentShowStorage : Fragment() {
         return mView
     }
 
-
-
     fun allFunction() {
         showStorage()
     }
-
 
     fun showStorage() {
         //check quyền dùng dữ liệu

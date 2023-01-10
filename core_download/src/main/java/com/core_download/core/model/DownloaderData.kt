@@ -4,9 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 /**
- * Author:  Alireza Tizfahm Fard
- * Date:    21/6/2019
- * Email:   alirezat775@gmail.com
+ * Cao Giap 10/1/2023
  */
 
 @Entity

@@ -19,9 +19,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 /**
- * Author:  Alireza Tizfahm Fard
- * Date:    21/6/2019
- * Email:   alirezat775@gmail.com
+ * CaoGiap 10/1/2023
  */
 
 internal data class DownloadTask(
@@ -44,7 +42,6 @@ internal data class DownloadTask(
     private var percent: Int = 0
     private var totalSize: Int = 0
     // endregion
-
     override fun onPreExecute() {
         super.onPreExecute()
         // check resume file
@@ -74,10 +71,7 @@ internal data class DownloadTask(
                 }
             }
 
-            /**
-             * lấy data thông tin downloas thông qua Room DataBase vì khi pause đã lưu
-             * lấy data thông qua url
-              */
+            // check file resume able if true set last size to request header
             if (resume) {
                 val model = dao?.getDownloadByUrl(url)
                 percent = model?.percent!!
@@ -95,10 +89,10 @@ internal data class DownloadTask(
             // check file size
             if (!resume) totalSize = connection?.contentLength!!
 
-            // Địa chỉ file được truyền dữ liệu xuống
+            // downloaded file
             downloadedFile = File(downloadDir + File.separator + fileName + "." + extension)
 
-            Log.d("path",downloadDir.toString())
+            Log.d("path",downloadDir + File.separator + fileName + "." + extension)
 
             // check file completed
             if (downloadedFile!!.exists() && downloadedFile?.length() == totalSize.toLong()) {
@@ -129,9 +123,9 @@ internal data class DownloadTask(
                     downloadListener?.onProgressUpdate(percent, downloadedSize, totalSize)
                     previousPercent = percent
                     dao?.updateDownload(url, StatusModel.DOWNLOADING, percent, downloadedSize, totalSize)
-                    Log.d("resume",resume.toString())
                 }
             }
+
             // close stream and connection
             bufferedOutputStream.flush()
             bufferedOutputStream.close()
@@ -167,10 +161,10 @@ internal data class DownloadTask(
 
     internal fun pause() {
         cancel(true)
-        // lưu thông tin vào room chờ resume lại
         dao?.updateDownload(url, StatusModel.PAUSE, percent, downloadedSize, totalSize)
         downloadListener?.onPause()
     }
+
 
     private fun detectFileName() {
         val contentType = connection?.getHeaderField("Content-Type").toString()
