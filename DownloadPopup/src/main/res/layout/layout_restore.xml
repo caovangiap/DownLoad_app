@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/ll_restore_purchase"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:visibility="visible">
+
+        <Button
+            android:id="@+id/btn_restore_purchase_store"
+            style="@style/PlanToDownloadButton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/button_bg"
+            android:text="@string/restore" />
+
+        <TextView
+            style="@style/TextPlanDownload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_toStartOf="@+id/btn_restore_purchase_store"
+            android:text="@string/restore_purchase_store" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_restore_purchase_license"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:visibility="visible">
+
+        <Button
+            android:id="@+id/btn_restore_purchase_license"
+            style="@style/PlanToDownloadButton"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/button_bg"
+            android:text="@string/restore" />
+
+        <TextView
+            style="@style/TextPlanDownload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/btn_restore_purchase_license"
+            android:gravity="center"
+            android:text="@string/restore_purchase_license" />
+
+    </RelativeLayout>
+
+</LinearLayout>

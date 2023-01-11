@@ -10,8 +10,9 @@ android {
     compileSdk 32
 
     defaultConfig {
+        minSdk 24
+
 //        applicationId "com.core_download"
-        minSdk 21
         targetSdk 32
         versionCode 1
         versionName "1.0"

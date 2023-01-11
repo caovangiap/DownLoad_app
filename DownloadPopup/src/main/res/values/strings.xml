@@ -1,0 +1,170 @@
+<resources>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+
+    <!--    newpie-->
+    <string name="msg_running">Downloading</string>
+    <string name="msg_running_detail">Tap for details</string>
+    <string name="no_available_dir">Please define a download folder later in settings</string>
+    <string name="download_failed">Download failed</string>
+    <string name="download_finished">Download finished</string>
+    <string name="download_finished_more">%s downloads finished</string>
+    <string name="file_name_empty_error">Filename cannot be empty</string>
+    <string name="msg_popup_permission">This permission is needed to\nopen in popup mode</string>
+    <string name="caption_auto_generated">Auto-generated</string>
+    <string name="unknown_content">[Unknown]</string>
+    <string name="general_error">Error</string>
+    <string name="download_dialog_title">Downloads</string>
+    <string name="no_streams_available_download">No streams available to download</string>
+    <!-- dialog about existing downloads -->
+    <string name="overwrite">Overwrite</string>
+    <string name="overwrite_unrelated_warning">A file with this name already exists</string>
+    <string name="overwrite_finished_warning">A downloaded file with this name already exists</string>
+    <string name="overwrite_failed">cannot overwrite the file</string>
+    <string name="download_already_running">There is a download in progress with this name</string>
+    <string name="download_already_pending">There is a pending download with this name</string>
+    <string name="generate_unique_name">Generate unique name</string>
+    <!-- message dialog about download error -->
+    <string name="error_file_creation">The file can not be created</string>
+    <string name="error_path_creation">The destination folder can not be created</string>
+    <string name="permission_denied">Action denied by the system</string>
+    <string name="downloads_title">Download manager</string>
+    <string name="clear_finished_download">Clear finished downloads</string>
+    <string name="confirm_prompt">Are you sure?</string>
+    <string name="missions_header_finished">Finished</string>
+    <string name="missions_header_pending">Pending</string>
+    <string name="missing_file">File moved or deleted</string>
+    <string name="toast_no_player">No app installed to play this file</string>
+    <string name="paused">paused</string>
+    <string name="queued">queued</string>
+    <string name="stop">Stop</string>
+    <string name="pause">Pause</string>
+    <string name="post_processing">post-processing</string>
+    <string name="file_deleted">File deleted</string>
+    <string name="undo">Undo</string>
+    <string name="start">Start</string>
+    <string name="retry">Retry</string>
+    <string name="delete">Delete</string>
+    <string name="share">Share</string>
+    <string name="show_error">Show error</string>
+
+    <string name="notification_channel_id" translatable="false">newpipe</string>
+    <string name="downloads_storage_ask" translatable="false">downloads_storage_ask</string>
+    <string name="downloads_maximum_retry" translatable="false">downloads_max_retry</string>
+    <string name="downloads_maximum_retry_default" translatable="false">3</string>
+    <string name="downloads_cross_network" translatable="false">cross_network_downloads</string>
+    <string name="downloads_queue_limit" translatable="false">downloads_queue_limit</string>
+    <string name="download_path_video_key" translatable="false">download_path</string>
+    <string name="download_path_audio_key" translatable="false">download_path_audio</string>
+    <string name="default_download_threads" translatable="false">default_download_threads</string>
+
+    <!-- FileName Downloads  -->
+    <string name="settings_file_charset_key" translatable="false">file_rename_charset</string>
+    <string name="settings_file_replacement_character_key" translatable="false">file_replacement_character</string>
+    <string name="settings_file_replacement_character_default_value" translatable="false">_</string>
+    <string name="charset_letters_and_digits_value" translatable="false">CHARSET_LETTERS_AND_DIGITS</string>
+    <string name="charset_most_special_value" translatable="false">CHARSET_MOST_SPECIAL</string>
+    <string name="default_file_charset_value" translatable="false">@string/charset_most_special_value</string>
+
+    <string name="app_update_notification_channel_id" translatable="false">newpipeAppUpdate</string>
+    <string name="app_update_notification_channel_name">App Update Notification</string>
+    <string name="app_update_notification_channel_description">Notifications for new App version</string>
+
+    <string name="notification_channel_name">Master Notification</string>
+    <string name="notification_channel_description">Notifications for App background and popup players</string>
+
+    <!-- Limit mobile data usage  -->
+    <string name="limit_mobile_data_usage_key" translatable="false">limit_mobile_data_usage</string>
+    <string name="limit_data_usage_none_key" translatable="false">limit_data_usage_none</string>
+
+    <string name="video_mp4_key" translatable="false">video_mp4</string>
+    <string name="video_webm_key" translatable="false">video_webm</string>
+    <string name="video_3gp_key" translatable="false">video_3gp</string>
+    <string name="audio_m4a_key" translatable="false">audio_m4a</string>
+    <string name="audio_webm_key" translatable="false">audio_webm</string>
+    <string name="default_audio_format_key" translatable="false">default_audio_format</string>
+    <string name="default_audio_format_value" translatable="false">@string/audio_m4a_key</string>
+    <string name="show_higher_resolutions_key" translatable="false">show_higher_resolutions</string>
+    <string name="default_video_format_key" translatable="false">default_video_format</string>
+    <string name="default_video_format_value" translatable="false">@string/video_mp4_key</string>
+    <string name="best_resolution_key" translatable="false">best_resolution</string>
+    <string name="default_resolution_key" translatable="false">default_resolution</string>
+    <string name="default_resolution_value" translatable="false">360p</string>
+
+    <!--new download dialog-->
+    <string name="youtube_restricted_mode_enabled" translatable="false">youtube_restricted_mode_enabled</string>
+    <string name="title_activity_recaptcha">reCAPTCHA challenge</string>
+    <string name="subtitle_activity_recaptcha">Press \"Done\" when solved</string>
+    <string name="recaptcha_cookies_key" translatable="false">recaptcha_cookies_key</string>
+    <string name="storage_use_saf" translatable="false">storage_use_saf</string>
+
+    <string name="last_used_download_type" translatable="false">@string/last_download_type_video_key</string>
+    <string name="last_download_type_video_key" translatable="false">last_dl_type_video</string>
+    <string name="last_download_type_audio_key" translatable="false">last_dl_type_audio</string>
+    <string name="last_download_type_subtitle_key" translatable="false">last_dl_type_subtitle</string>
+    <string name="no_dir_yet">No download folder set yet, choose the default download folder now</string>
+    <string name="download_has_started">Download has started</string>
+    <string name="msg_error">Error</string>
+    <string name="recovering">recovering</string>
+    <string name="no_app_to_open_intent">No app on your device can open this</string>
+    <string name="open_with">Open with</string>
+    <string name="msg_copied">Copied to clipboard</string>
+    <string name="share_dialog_title">Share with</string>
+    <string name="deleted_downloads">Deleted %1$d downloads</string>
+    <string name="list">List</string>
+    <string name="grid">Grid</string>
+    <string name="start_downloads">Start downloads</string>
+    <string name="pause_downloads">Pause downloads</string>
+
+
+    <string name="title_tube_change">Update alert!</string>
+    <string name="des_tube_change">Youtube has changed the data algorithm, we are trying to fix it, the latest update will be available soon.</string>
+
+    <string name="title_error_connection">Error connection</string>
+    <string name="message_error_connection">Please check internet connection or try again later!</string>
+    <string name="try_again">TRY AGAIN</string>
+    <string name="title_dl_plan_dialog">Choose plan to download</string>
+    <string name="title_watch_ads">Watch ads video?</string>
+    <string name="mes_watch_ads">Please watch ads video to download</string>
+    <string name="dl_normal_quality_video">Download normal quality video &amp; audio file (SD QUALITY)</string>
+    <string name="dl_high_quality_video">Download high quality video &amp; audio (HD QUALITY)</string>
+    <string name="link_error">Unknown error, try again later!</string>
+    <string name="permission_not_granted">Please accept permission!</string>
+
+
+    <!-- Popup premium-->
+    <string name="remove_ads">Remove ads</string>
+    <string name="unlimited">Download unlimited and high quality video&amp;audio</string>
+    <string name="premium">Remove ads and download video  2k/4k..</string>
+    <string name="restore_premium">Restore premium version</string>
+    <string name="title_premium_dialog">Choose plan to purchase</string>
+    <string name="restore">RESTORE</string>
+    <string name="restore_purchase_store">Restore premium version from Play Store</string>
+    <string name="restore_purchase_license">Restore premium version from device storage</string>
+    <string name="purchase">Purchase</string>
+    <string name="one_time_payment">(All purchases are one-time payment)</string>
+    <string name="restart_take_effect">Restart app to take effect</string>
+    <string name="message_restore_purchased_failed">You have not purchased premium version yet</string>
+    <string name="message_purchased_failed">Purchase failed</string>
+    <string name="message_purchased_canceled">Cancel purchase</string>
+    <string name="message_you_purchased_this_package">You already purchased</string>
+
+    <string name="mes_select_folder">Please select default folder to save downloaded file</string>
+    <string name="select_folder_title">Choose download folder</string>
+    <string name="select_default_folder">Default Folder</string>
+    <string name="select_folder">Browser</string>
+    <string name="file_type">File type: video-mp4</string>
+
+    <string name="msg_tiktok_fail">Download failed, please try again later</string>
+    <string name="select_server_test">Select server to test speed extractor</string>
+    <string name="title_select_server_test">ONLY SHOW WHEN TEST</string>
+
+    <string name="watch_video" translatable="false">WATCH ADS</string>
+    <string name="free_download" translatable="false">FREE DOWNLOAD</string>
+    <string name="normal_quality" translatable="false">Normal quality (max 1080p)</string>
+    <string name="high_quality" translatable="false">High Quality (max 2k/4k)</string>
+    <string name="support_1080">Highest resolution supported: 1080p</string>
+    <string name="support_2k4k">Support higher quality (2k/4k) by purchasing premium version</string>
+    <string name="download">download</string>
+
+</resources>

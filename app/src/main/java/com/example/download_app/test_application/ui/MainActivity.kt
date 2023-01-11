@@ -14,15 +14,21 @@ import com.example.download_app.databinding.ActivityMainBinding
 import com.example.download_app.test_application.ui.adapter.AdapterMainActiivity
 import com.example.download_app.test_application.viewmodel.ViewModelDownLoad
 import com.google.android.material.navigation.NavigationView
+import com.muicvtools.mutils.ClientConfig
+import com.muicvtools.mutils.MainLoadingActivity
+import com.muicvtools.mutils.downloads.DownloadType
+import com.muicvtools.mutils.downloads.FetchListener
+import com.muicvtools.mutils.downloads.StreamOtherInfo
+import com.muicvtools.mutils.downloads.TwitterVideoFetch
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import us.shandian.giga.settings.NewPipeSettings
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : MainLoadingActivity() {
     lateinit var binding : ActivityMainBinding
-    lateinit var toggle: ActionBarDrawerToggle
+    var toggle: ActionBarDrawerToggle? = null
     lateinit var viewPage : AdapterMainActiivity
     companion object{
         lateinit var vModelDownLoad : ViewModelDownLoad
@@ -41,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         vModelDownLoad = ViewModelDownLoad()
         val view = binding.root
         setContentView(view)
-        setUpUi()
+        initConfigApp()
     }
 
     fun setUpUi(){
@@ -60,7 +66,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * lắng nghe sự even viewpage mở fragment
+     * lắng nghe sự even viewpager add fragment
      */
     private fun showFragment(fragmentCode: Int) {
 
@@ -139,7 +145,7 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.title = "DownLoad app"
         setSupportActionBar(binding.toolbar)
         toggle = ActionBarDrawerToggle(this,binding.mainActicity,binding.toolbar,R.string.opent_navigation,R.string.close_navigation )
-        binding.mainActicity.addDrawerListener(toggle)
+        binding.mainActicity.addDrawerListener(toggle!!)
         binding.navigationView.setNavigationItemSelectedListener {
             it.isChecked = true
             when(it.itemId){
@@ -155,7 +161,7 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-        toggle.syncState()
+        toggle!!.syncState()
 
     }
 
@@ -163,20 +169,63 @@ class MainActivity : AppCompatActivity() {
      * 3 override chức năng của navigation drawer (UI)
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (toggle.onOptionsItemSelected(item)) {
+        if (toggle?.onOptionsItemSelected(item) == true) {
             Log.d("main","true")
             return true
         }
         return super.onOptionsItemSelected(item)
     }
+
+    override fun isShowOpenAds(): Boolean {
+        return true
+    }
+
+    override fun getDownloadType(): DownloadType {
+        return DownloadType.DAILYMOTION
+    }
+
+    override fun onNewNotices() {
+
+    }
+
+    override fun onHasAds() {
+
+    }
+
+    override fun onClientConfigLoaded() {
+      setUpUi()
+
+        TwitterVideoFetch.getVideo("link video", object : FetchListener {
+            override fun requireLogin() {
+
+            }
+
+            override fun onFetchedSuccess(detail: StreamOtherInfo?) {
+
+            }
+
+            override fun onFetchedFail(message: String?) {
+
+            }
+        })
+    }
+
+    override fun onUpdateAlert(force: Boolean) {
+
+    }
+
+    override fun onFakeClientConfig(clientConfig: ClientConfig?) {
+
+    }
+
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        toggle.syncState()
+        toggle?.syncState()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        toggle.onConfigurationChanged(newConfig)
+        toggle?.onConfigurationChanged(newConfig)
     }
 
 }
