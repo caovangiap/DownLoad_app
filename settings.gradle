@@ -12,9 +12,20 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' }
+
+        maven {
+            url 'https://unity3ddist.jfrog.io/artifactory/unity-mediation-mvn-prod-local/'
+        }
+
+        maven {
+            url 'https://artifact.bytedance.com/repository/pangle'
+        }
+
+        maven { url "https://s3.amazonaws.com/smaato-sdk-releases/"}
     }
 }
 rootProject.name = "DownLoad_App"
 include ':app'
 
 include ':core_download'
+include ':DownloadPopup'
