@@ -13,6 +13,9 @@ import com.example.download_app.core_download.DownloaderFromUrl
 import com.example.download_app.test_application.model.DownLoadProcess
 import com.example.download_app.test_application.ui.MainActivity
 import com.example.download_app.test_application.model.StorageData
+import com.muicvtools.mutils.downloads.FetchListener
+import com.muicvtools.mutils.downloads.StreamOtherInfo
+import com.muicvtools.mutils.downloads.TwitterVideoFetch
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.schabi.newpipe.extractor.stream.StreamInfo
