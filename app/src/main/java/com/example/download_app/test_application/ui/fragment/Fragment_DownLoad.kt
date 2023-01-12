@@ -1,6 +1,4 @@
 package com.example.download_app.test_application.ui.fragment
-
-
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
@@ -11,15 +9,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.download_app.databinding.FragmentDownloadBinding
+import com.example.download_app.test_application.model.DownloadAdapter
 import com.example.download_app.test_application.ui.MainActivity
+import com.example.download_app.test_application.ui.adapter.AdapterFragmentDownLoad
 import com.example.download_app.test_application.viewmodel.ViewModelDownLoad
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import okhttp3.internal.wait
+import com.muicvtools.mutils.downloads.DailymtVideoFetch
+import com.muicvtools.mutils.downloads.FetchListener
+import com.muicvtools.mutils.downloads.StreamOtherInfo
 import java.io.File
 
 
@@ -81,10 +79,10 @@ class Fragment_DownLoad : Fragment() {
         }
     }
 
-// choose folder download cho user
-//    /**
-//     * chọn folder để download để lưu file sau download
-//     */
+
+    /**
+     * chọn folder để lưu file sau download
+     */
 //    fun chooseFolder(fileName: String) {
 //        if (fileName != "") {
 //            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
@@ -126,22 +124,23 @@ class Fragment_DownLoad : Fragment() {
         binding.downloadBt.setOnClickListener {
             checkFolderExist()
         }
+        setUpUi()
     }
 
     // check folder exist và tải về file
     fun checkFolderExist() {
-        UrlDownload = "https://www.youtube.com/watch?v=QadaRNZS2Ms"
+        UrlDownload = "https://www.dailymotion.com/video/x6emb2z"
         val file =
             File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath + nameOfFolderDownLoad)
 
         if (file.exists() && file.isDirectory) {
             if (UrlDownload != "") {
-                viewModel.getUrlVideo(UrlDownload).toString()
+                getUrlResource()
                 downloadFile()
             }
         } else {
             file.mkdir()
-            viewModel.getUrlVideo(UrlDownload).toString()
+            getUrlResource()
             downloadFile()
         }
     }
@@ -158,7 +157,32 @@ class Fragment_DownLoad : Fragment() {
                 )
             startDownload.download()
         }
+    }
 
+    fun getUrlResource(){
+
+        DailymtVideoFetch.getVideo("https://www.dailymotion.com/video/x8h58zi?playlist=x6hzkz",object : FetchListener {
+            override fun requireLogin() {
+
+            }
+            override fun onFetchedSuccess(detail: StreamOtherInfo?) {
+                val size = detail?.urls_stream?.size
+                val imageThumball = detail?.url_thumb
+                val detailItems = detail?.urls_stream
+                val title = detail?.title_file
+                val items = DownloadAdapter(size!!,imageThumball!!,detailItems,title!!)
+                viewModel.dataChooserQualityItems.postValue(items)
+            }
+            override fun onFetchedFail(message: String?) {
+            }
+        })
+    }
+
+    fun setUpUi(){
+        viewModel.dataChooserQualityItems.observe(viewLifecycleOwner){
+            binding.viewQuality.adapter = AdapterFragmentDownLoad(it,viewModel)
+            binding.viewQuality.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+        }
     }
 
 }

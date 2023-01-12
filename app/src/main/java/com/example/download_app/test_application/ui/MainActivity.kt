@@ -2,7 +2,6 @@ package com.example.download_app.test_application.ui
 
 import android.content.Context
 import android.content.res.Configuration
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -13,13 +12,9 @@ import com.example.download_app.R
 import com.example.download_app.databinding.ActivityMainBinding
 import com.example.download_app.test_application.ui.adapter.AdapterMainActiivity
 import com.example.download_app.test_application.viewmodel.ViewModelDownLoad
-import com.google.android.material.navigation.NavigationView
 import com.muicvtools.mutils.ClientConfig
 import com.muicvtools.mutils.MainLoadingActivity
-import com.muicvtools.mutils.downloads.DownloadType
-import com.muicvtools.mutils.downloads.FetchListener
-import com.muicvtools.mutils.downloads.StreamOtherInfo
-import com.muicvtools.mutils.downloads.TwitterVideoFetch
+import com.muicvtools.mutils.downloads.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -195,19 +190,6 @@ class MainActivity : MainLoadingActivity() {
     override fun onClientConfigLoaded() {
       setUpUi()
 
-        TwitterVideoFetch.getVideo("link video", object : FetchListener {
-            override fun requireLogin() {
-
-            }
-
-            override fun onFetchedSuccess(detail: StreamOtherInfo?) {
-
-            }
-
-            override fun onFetchedFail(message: String?) {
-
-            }
-        })
     }
 
     override fun onUpdateAlert(force: Boolean) {

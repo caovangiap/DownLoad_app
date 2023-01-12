@@ -11,8 +11,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.download_app.core_download.DownloaderFromUrl
 import com.example.download_app.test_application.model.DownLoadProcess
+import com.example.download_app.test_application.model.DownloadAdapter
 import com.example.download_app.test_application.ui.MainActivity
 import com.example.download_app.test_application.model.StorageData
+import com.muicvtools.mutils.downloads.DailymtVideoFetch
 import com.muicvtools.mutils.downloads.FetchListener
 import com.muicvtools.mutils.downloads.StreamOtherInfo
 import com.muicvtools.mutils.downloads.TwitterVideoFetch
@@ -51,31 +53,10 @@ class ViewModelDownLoad : ViewModel() {
     // livedata cảnh báo lỗi
     val bugDownloadFailer = MutableLiveData<String>()
 
-
+    // live data recycler fragmentdownload
+    val dataChooserQualityItems = MutableLiveData<DownloadAdapter>()
 
     // main code
-    /**
-     *  get url youtube cho vao StartDownLoad
-     */
-    fun getUrlVideo(url: String) {
-        // thư viện nhận url của youtube thông qua thư viện
-        ExtractorHelper.getStreamInfo(0, url, true)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-
-                    result: StreamInfo? ->
-
-                if (result != null) {
-                    resourceUrlYoutube.value= result.videoStreams[1].content
-                    Log.d("url",result.videoStreams[1].content.toString())
-                }
-            })
-            { throwable: Throwable? ->
-                Log.d("false", "false")
-            }
-    }
-
     /**
      * Mỗi lần gọi đến lớp này là đang tạo ra 1 thể hiện mới của downloader vì
      * DownloaderFromUrl.Buile là tạo ra 1 object khác
@@ -86,7 +67,7 @@ class ViewModelDownLoad : ViewModel() {
             context,
             url
         )
-            .fileName(fileName,"mp4")
+            .fileName("giap","mp4")
             .downloadDirectory(locationUrl)
             .downloadListener(object : OnDownloadListener {
                 override fun onStart() {
